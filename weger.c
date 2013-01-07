@@ -69,7 +69,8 @@ mpz_set_str(b,"7978886869909",10);
 	mpz_set(tmpb,b);
 
 	mpz_sqrt(k,b);
-/*	mpz_mul_ui(l,k,2);
+/* 
+  mpz_mul_ui(l,k,2);
 	mpz_add_ui(k,b,1);
 	mpz_sub(f,k,l);
 */
@@ -81,18 +82,6 @@ mpz_set_str(b,"7978886869909",10);
 	mpf_init2(f_x, 4096);	mpf_init2(ter, 4096);	mpf_init2(tri,4096);
 	mpf_set_z(f_x,b);
 
-/*
-i=8	karr[i] = 136879,
-	darr[i] = 176264
-i=9	karr[i] = 137091,
-	darr[i] = 176537
-i=10	karr[i] = 273970,
-	darr[i] = 352801
-i=11	karr[i] = 685031,
-	darr[i] = 882139
-i=12	karr[i] = 7809311,
-	darr[i] = 10056330
-*/	
 
 	for(num = 100; num < 150 ; num++)
 	{
@@ -134,9 +123,6 @@ i=12	karr[i] = 7809311,
 //		gmp_printf("f   = %Zd\n",f);
 //		gmp_printf("a   = %Zd\n",a);
 
-//		mpz_set_str(f, "2285786424189769091284159", 10); 
-//		mpz_set_str(a, "3558458718976746753830603",10);
-
 		mpz_mul_ui(  a,  a,factor);
 		j=cfrac(a,f);
 	    find_k_d(a,f,j);
@@ -149,8 +135,6 @@ i=12	karr[i] = 7809311,
 //		gmp_printf("tmpb= %Zd\n",tmpb);
 //		gmp_printf("a   = %Zd\n",a);
 
-		//mpz_set_str(karr[0],"89468507233879006742852",10);
-//		mpz_set_str(darr[0],"120180801986365356473843",10);
 		for(i=0; i < j+1; i++)
 		{
 		
