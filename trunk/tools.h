@@ -1,4 +1,11 @@
 mpz_t farr[100000];
+mpz_t karr[10000],darr[10000];
+mpz_t phi;
+
+/*
+ cfrac : 
+ Decomposing a/b in continued fraction
+*/
 int cfrac(mpz_t a,mpz_t b)
 {
 	int i;
@@ -27,7 +34,7 @@ int cfrac(mpz_t a,mpz_t b)
 	 return i;
  }
 
-mpz_t karr[10000],darr[10000];
+
 void find_k_d(mpz_t a,mpz_t b,int j)
 {
 	int k,i,m=1;
@@ -35,14 +42,16 @@ void find_k_d(mpz_t a,mpz_t b,int j)
 	mpz_init(y);
 	mpz_init(z);
 	mpz_init(tmp);
-    mpz_set(karr[0],farr[0]);
-    mpz_set_str(darr[0],"1",10);
-	for(i=1;i<=j;i++)
+  mpz_set(karr[0],farr[0]);
+  mpz_set_str(darr[0],"1",10);
+	
+  for(i=1;i<=j;i++)
 	{
 		mpz_set(z,farr[i-1]);
-        mpz_set(y,farr[i]);
-        mpz_init_set_str(x,"1",10);
-		for(k=i;k>1;k--)
+    mpz_set(y,farr[i]);
+    mpz_init_set_str(x,"1",10);
+		
+    for(k=i;k>1;k--)
 		{
 			mpz_set(tmp,x);
 	        mpz_set(x,y);
@@ -50,9 +59,9 @@ void find_k_d(mpz_t a,mpz_t b,int j)
 	        mpz_add(y,z,tmp);
 	        mpz_set(z,farr[k-2]);
 		}
-	     mpz_set(karr[m],x);
-	     mpz_set(darr[m],y);
-	     m++;
+    mpz_set(karr[m],x);
+    mpz_set(darr[m],y);
+    m++;
 	}
 
 	mpz_clear (y);
@@ -62,13 +71,14 @@ void find_k_d(mpz_t a,mpz_t b,int j)
 
 }
 
-mpz_t phi;
+
 void find_phi(mpz_t e,int n)
 {
 	int i;
 	mpz_t tmp,tmp2;
 	mpz_init(tmp);
 	mpz_init(tmp2);
+   
 	for(i=1;i<=n;i++)
 	{
 		mpz_mul(tmp,e,darr[i]);
@@ -84,4 +94,3 @@ void find_phi(mpz_t e,int n)
 	mpz_clear (tmp2);
 
 }
-
