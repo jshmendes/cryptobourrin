@@ -25,6 +25,9 @@ int cfrac(mpz_t a,mpz_t b)
 	  mpz_set(a,b);
 	  mpz_set(b,r);
 	}
+	mpz_clear(q);
+	mpz_clear(r);
+	mpz_clear(tmp);
 
 	 return i;
  }
@@ -56,6 +59,12 @@ void find_k_d(mpz_t a,mpz_t b,int j)
 	     mpz_set(darr[m],y);
 	     m++;
 	}
+
+	mpz_clear (y);
+	mpz_clear (z);
+	mpz_clear (tmp);
+	mpz_clear (x);
+
 }
 
 
@@ -77,6 +86,9 @@ void find_phi(mpz_t e,int n)
 		  break;
 		}	  
 	}   
+	mpz_clear (tmp);
+	mpz_clear (tmp2);
+
 }
 
 mpz_t p,q;
@@ -108,6 +120,13 @@ void fact(mpz_t n)
 		  else if(mpz_cmp_ui(q,0)>0)
 		      mpz_fdiv_q(p,n,q);
 	  }
+
+
+	mpz_clear (tmp);
+	mpz_clear (tmp2);
+	mpz_clear (tmp3);
+	mpz_clear (md);
+
 }
 
 
@@ -154,18 +173,18 @@ int main(int argc, char *argv[])
 //mpz_set_str(b, "160523347",10);
 //mpz_set_str(a, "1908717316858446782674807627631",10);
 //mpz_set_str(b, "2746482122383906972393557363644983749146398460239422282612197",10);
-//mpz_set_str(a,"3594320245477",10);
-//mpz_set_str(b,"7978886869909",10); 
+mpz_set_str(a,"3594320245477",10);
+mpz_set_str(b,"7978886869909",10); 
 //mpz_set_str(b,"C836AC35487C4DF89786C40E6F708777679DCC8D3AA3E1D33AC420D5B30531E478E6FD137B26D5AAF22A0701561281AC010DC3CFBFCFD5573CCA5FFAB2BFD4CF",16);
 //mpz_set_str(a,"802EF8CC586F35606E6B1B04FEF635D50DE2EABE9507ADA29662517F60517821E3C764AF09C2D7CD9DF0467250F83437443EA2BEA2BC719333351F280CE9E4F9",16);
 //mpz_set_str(a,"4603830998027",10); 
 //mpz_set_str(b,"7978886869909",10); 
 /*
 mpz_set_str(a,"921318991",10); 
-mpz_set_str(b,"7978886869909",10); 
-mpz_set_str(a,"263",10); 
-mpz_set_str(b,"7978886869909",10); 
-*/
+mpz_set_str(b,"7978886869909",10); */
+//mpz_set_str(a,"263",10); 
+//mpz_set_str(b,"7978886869909",10); 
+
 
 	mpz_set(tmp,a);
 	mpz_set(tmpb,b);
@@ -237,4 +256,15 @@ mpz_set_str(b,"7978886869909",10);
 
 	gmp_printf("\td > 1/3*N^{1/4} = %Zd \n\n",r1); 
 
+	mpz_clear (b);
+	mpz_clear (a);
+	mpz_clear (tmp);
+	mpz_clear (tmpb);
+	mpz_clear (r1);
+	mpz_clear (r2);
+	mpz_clear (p);
+	mpz_clear (q);
+	mpz_clear (k);
+	mpz_clear (l);
+	mpz_clear (f);
 }
