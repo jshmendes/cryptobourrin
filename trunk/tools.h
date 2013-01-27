@@ -37,41 +37,39 @@ int cfrac(mpz_t a,mpz_t b)
 
 void find_k_d(mpz_t a,mpz_t b,int j)
 {
-	int k,i,m=1;
-	mpz_t x,y,z,tmp;
-	mpz_init(y);
-	mpz_init(z);
-	mpz_init(tmp);
+  int k,i,m=1;
+  mpz_t x,y,z,tmp;
+  mpz_init(y);
+  mpz_init(z);
+  mpz_init(tmp);
   mpz_set(karr[0],farr[0]);
   mpz_set_str(darr[0],"1",10);
 	
   for(i=1;i<=j;i++)
-	{
-		mpz_set(z,farr[i-1]);
-    mpz_set(y,farr[i]);
-    mpz_init_set_str(x,"1",10);
+  {
+	mpz_set(z,farr[i-1]);
+	mpz_set(y,farr[i]);
+	mpz_init_set_str(x,"1",10);
 		
     for(k=i;k>1;k--)
-		{
-			mpz_set(tmp,x);
-	        mpz_set(x,y);
-	        mpz_mul(z,z,y);
-	        mpz_add(y,z,tmp);
-	        mpz_set(z,farr[k-2]);
-		}
+	{
+		mpz_set(tmp,x);
+	    mpz_set(x,y);
+	    mpz_mul(z,z,y);
+	    mpz_add(y,z,tmp);
+	    mpz_set(z,farr[k-2]);
+	}
     mpz_set(karr[m],x);
     mpz_set(darr[m],y);
     m++;
-	}
-
-	mpz_clear (y);
-	mpz_clear (z);
-	mpz_clear (tmp);
-	mpz_clear (x);
-
+  }
+  mpz_clear (y);
+  mpz_clear (z);
+  mpz_clear (tmp);
+  mpz_clear (x);
 }
 
-
+/*
 void find_phi(mpz_t e,int n)
 {
 	int i;
@@ -93,4 +91,4 @@ void find_phi(mpz_t e,int n)
 	mpz_clear (tmp);
 	mpz_clear (tmp2);
 
-}
+}*/
