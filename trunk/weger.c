@@ -86,12 +86,12 @@ int main(int argc, char *argv[])
 			mpf_set_z(ter,b);
 			mpf_sub(ter,ter,tri);
 	//		gmp_printf("Ter = %.*Ff\n",10,ter);
-			mpf_mul_ui(ter,ter,factor);
+//			mpf_mul_ui(ter,ter,factor);
 			mpz_set_f(f,ter);
 	//		mpz_add_ui(f,f,1);
 	//		gmp_printf("f   = %Zd\n",f);
 	//		gmp_printf("a   = %Zd\n",a);
-			mpz_mul_ui(a,a_orig,factor);
+			mpz_set(a,a_orig);
 			j=cfrac(a,f);
 			find_k_d(a,f,j);
 			mpz_set(a,a_orig);
