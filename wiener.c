@@ -108,7 +108,6 @@ int main(int argc, char *argv[])
 				mpz_clear (l);
 				mpz_clear (f);
 
-
 				return ;
 			}
 		}
