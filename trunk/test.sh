@@ -1,11 +1,7 @@
 #!/bin/sh
 
 echo "################### Building binary ################\n" ;
-gcc -o wiener wiener.c -lgmp ;
-gcc -o rsatools rsatools.c -lgmp ;
 gcc -o arr arrangement.c -lgmp ;
-
-
 
 echo "################### Beginning of Test ################\n" ;
 ./arr 431 809 2621 7829 209785669799 150794606190194112168401 417467109300720063964829 ;
