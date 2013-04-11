@@ -1,0 +1,11 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+TBD
+
+= Details =
+
+Currently, the development is focused on RSA bad key detection.
+
+Are implemented Wiener's Attacks and some other small tests...
