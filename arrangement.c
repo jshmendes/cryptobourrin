@@ -32,11 +32,20 @@ int main(int argc, char *argv[])
 		mpz_init_set_str(tab[i],argv[i+1],10);
 		gmp_printf(" tab[%d] = %Zd\n",i, tab[i]);
 	}
-
+/*
+	for(i=0; i<k-1; i++)
+	{
+		mpz_mod(tmp,tab[k-1],tab[i]);
+		if(mpz_cmp_ui(tmp,0) == 0)
+		{
+			mpz_div(tab[k-1], tab[k-1], tab[i]);
+			gmp_printf(" tab[%d] = %Zd\n",i, tab[k-1]);
+		}	
+	}
+*/
 	
 	for(i = 0 ; i < 1<<k ; i++)
 	{
-	
 		mpz_init_set_str(arr,"1",10);
 		mpz_init_set_str(tmp,"1",10);
 		for(j = 0 ; j < k ; j++)
@@ -48,7 +57,9 @@ int main(int argc, char *argv[])
 			mpz_mul(arr,arr,tmp);
 		}	
 		
-		gmp_printf("%04d : arr = %Zd\n",i,arr);
+//		gmp_printf("%04d : arr = %Zd\n",i,arr);
+
+		gmp_printf("mpz_init_set_str(tab[%d], \"%Zd\",10);\n",i, arr);
 	}
 	
 	return 0 ;

@@ -36,6 +36,52 @@ int isperfectsquare(mpz_t N)
 }
 
 
+void basic(mpz_t a, mpz_t b)
+{
+	mpz_t tmp;
+	mpz_init(tmp);
+
+	if (isprime(a) == 2) 
+		fprintf(stdout, "e is prime\n");
+	else
+		fprintf(stdout, "e is not prime\n");
+
+
+	if (isprime(b) == 2) 
+	{
+		fprintf(stdout, "N is prime... FAIL !\n");
+	}
+	else
+		fprintf(stdout, "N is not prime\n");
+
+	mpz_mod_ui(tmp,b,2);
+	if(0==mpz_cmp_ui(tmp,1))
+		fprintf(stdout, "Phi(N) is a multiple of 4\n");
+
+	mpz_mod_ui(tmp,b,6);
+	if(0==mpz_cmp_ui(tmp,5))
+		fprintf(stdout, "Phi(N) is a multiple of 12\n");
+
+	mpz_mod_ui(tmp,b,4);
+	if(0==mpz_cmp_ui(tmp,3))
+		fprintf(stdout, "Phi(N) is a multiple of 8\n");
+
+	mpz_mod_ui(tmp,b,9);
+	if(0==mpz_cmp_ui(tmp,1))
+		fprintf(stdout, "Phi(N) is a multiple of 9\n");
+
+
+	if (isperfectsquare(b) == 1) 
+	{
+		fprintf(stdout, "N is a perfect square... FAIL !\n");
+	}
+
+	if(gcd(a,b))
+		fprintf(stdout, "e and N are relatively prime\n");
+
+	mpz_clear(tmp);
+}
+
 mpz_t farr[100000];
 mpz_t karr[10000],darr[10000];
 mpz_t phi;
@@ -188,18 +234,18 @@ int wiener(mpz_t a, mpz_t b)
 				mpz_clear (l);
 				mpz_clear (f);
 
-				return 0;
+				exit(0);
 			}
 		}
 	}
 
-	fprintf(stdout, "Wiener's attack failed !\n");
+	//fprintf(stdout, "Wiener's attack failed !\n");
 	mpz_sqrt(tmpb,b);
 	mpz_sqrt(tmp,tmpb);
 
 	mpz_fdiv_q_ui(r1,tmp,3);
 
-	gmp_printf("\td > 1/3*N^{1/4} = %Zd \n",r1); 
+	//gmp_printf("\td > 1/3*N^{1/4} = %Zd \n",r1); 
 
 	mpz_clear (tmp);
 	mpz_clear (tmpb);
