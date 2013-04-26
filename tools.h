@@ -167,15 +167,17 @@ int wiener(mpz_t a, mpz_t b)
 	mpz_init(delta);mpz_init(B);
 	mpz_init(tmp);mpz_init(tmpb);
 
-	gmp_printf("e   is %Zd\n",a);
-	gmp_printf("N   is %Zd\n",b);
+	//gmp_printf("e   is %Zd\n",a);
+	//gmp_printf("N   is %Zd\n",b);
 
 	mpz_set(tmp,a);
 	mpz_set(tmpb,b);
 
 	//f = N + 1 - 2sqrt(N)
 	mpz_sqrt(k,tmpb);
-	mpz_mul_ui(l,k,2);
+//	mpz_mul_ui(l,k,2);
+	mpz_mul_ui(l,k,212132034);
+	mpz_div_ui(l,l,100000000);
 	mpz_add_ui(k,tmpb,1);
 	mpz_sub(f,k,l);
 
@@ -238,7 +240,7 @@ int wiener(mpz_t a, mpz_t b)
 			}
 		}
 	}
-
+/*
 	//fprintf(stdout, "Wiener's attack failed !\n");
 	mpz_sqrt(tmpb,b);
 	mpz_sqrt(tmp,tmpb);
@@ -246,7 +248,7 @@ int wiener(mpz_t a, mpz_t b)
 	mpz_fdiv_q_ui(r1,tmp,3);
 
 	//gmp_printf("\td > 1/3*N^{1/4} = %Zd \n",r1); 
-
+*/
 	mpz_clear (tmp);
 	mpz_clear (tmpb);
 	mpz_clear (r1);
