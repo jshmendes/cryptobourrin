@@ -21,7 +21,18 @@ int main(int argc, char *argv[])
 	gmp_randstate_t rstate42;
 	unsigned int i = 1;
 	unsigned int j = 1;
+	unsigned int k = 1;
+	unsigned int l = 1;
+	mpz_t power[1000];
+	mpz_t minima[1000];
 	unsigned int count = 0;
+
+	for(i=0 ; i < 1000 ; i++)
+	{
+		mpz_init_set_str(minima[i], "1", 10);
+		mpz_init_set_str(power[i], "1", 10);
+	}
+
 
 	mpz_init_set(minRef,N);
 
@@ -32,14 +43,13 @@ int main(int argc, char *argv[])
 	mpz_urandomb(tmp, rstate42,2000);
 	gmp_printf("x = %Zd\n", tmp);
 	mpz_init_set(min,tmp);
-	while(count <5)
+	while(count <1000)
 	{
 		count++;
-		mpz_set_str(pow,"0",10);
 		mpz_init_set(tmp,min);
 		gmp_printf("x = %Zd\n", tmp);
 		mpz_init_set(min,minRef);
-	
+		mpz_set_str(pow,"1",10);
 		mpz_set(x,tmp);
 		i=0;
 		j=0;
@@ -53,6 +63,7 @@ int main(int argc, char *argv[])
 			if(mpz_cmp(min,x) == 0)
 			{
 				gmp_printf("looping pow = %Zd\n", pow);
+				l = 10;
 				break ;
 			}
 			
@@ -60,7 +71,9 @@ int main(int argc, char *argv[])
 			{
 				mpz_set(min, x);
 				gmp_printf("Min = %Zd et ", min);				
-				gmp_printf("pow = %Zd\n", pow);				
+				gmp_printf("pow = %Zd\n", pow);	
+				mpz_set(minima[count],min);
+				mpz_set(power[count],pow);		
 			}
 
 			i++ ;		
@@ -77,6 +90,22 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
+
+
+		for(l = 0 ; l < count+1; l++) 
+		{
+			if(mpz_cmp(minima[l],minima[count]) == 0)
+			{
+				for(k=l; k < count ; k++)
+					mpz_mul(power[count], power[k], power[count]);
+				gmp_printf("Boucle avec pow = %Zd\n", power[count]);
+				gmp_printf("et minima = %Zd\n", minima[count]);	
+
+				break ;
+			}
+		}
+		count++;
+		
 		gmp_printf("... Ok pour x=%Zd et pow = %Zd\n\n", tmp, pow);
 	}
 	return 0;
