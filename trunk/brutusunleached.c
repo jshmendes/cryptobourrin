@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	gmp_randinit_default(rstate42);
 	mpz_sub_ui(tmp,tmp,1);
 
-	mpz_urandomb(tmp, rstate42,2000);
+	mpz_urandomb(tmp, rstate42,2067);
 	gmp_printf("x = %Zd\n", tmp);
 	mpz_init_set(min,tmp);
 	while(count <1000)
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 			{
 				gmp_printf("looping pow = %Zd\n", pow);
 				l = 10;
-				break ;
+				return ;
 			}
 			
 			if(mpz_cmp(min,x) > 0)
@@ -92,16 +92,16 @@ int main(int argc, char *argv[])
 		}
 
 
-		for(l = 0 ; l < count+1; l++) 
+		for(l = 0 ; l < count; l++) 
 		{
 			if(mpz_cmp(minima[l],minima[count]) == 0)
 			{
-				for(k=l; k < count ; k++)
+				for(k=l+1; k < count ; k++)
 					mpz_mul(power[count], power[k], power[count]);
 				gmp_printf("Boucle avec pow = %Zd\n", power[count]);
 				gmp_printf("et minima = %Zd\n", minima[count]);	
 
-				break ;
+				return;
 			}
 		}
 		count++;
