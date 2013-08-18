@@ -38,8 +38,8 @@ int isperfectsquare(mpz_t N)
 
 void basic(mpz_t a, mpz_t b)
 {
-	mpz_t tmp;
-	mpz_init(tmp);
+	mpz_t tmp,temp;
+	mpz_init(tmp);mpz_init(temp);
 
 	if (isprime(a) == 2) 
 		fprintf(stdout, "e is prime\n");
@@ -66,9 +66,61 @@ void basic(mpz_t a, mpz_t b)
 	if(0==mpz_cmp_ui(tmp,3))
 		fprintf(stdout, "Phi(N) is a multiple of 8\n");
 
-	mpz_mod_ui(tmp,b,9);
-	if(0==mpz_cmp_ui(tmp,1))
-		fprintf(stdout, "Phi(N) is a multiple of 9\n");
+	mpz_mod_ui(tmp,b,12);
+	if(0==mpz_cmp_ui(tmp,11))
+		fprintf(stdout, "Phi(N) is a multiple of 12\n");
+
+	mpz_mod_ui(tmp,b,24);
+	if(0==mpz_cmp_ui(tmp,11))
+		fprintf(stdout, "Phi(N) is a multiple of 24\n");
+
+	mpz_mod_ui(tmp,b,24);
+	if(0==mpz_cmp_ui(tmp,23))
+		fprintf(stdout, "Phi(N) is a multiple of 24\n");
+
+/*	mpz_mod_ui(tmp,b,65537);
+	gmp_printf("N = %Zd mod 65537\n",tmp);
+
+	mpz_mod_ui(tmp,b,1901);
+	gmp_printf("N = %Zd mod 65537\n",tmp);
+*/
+
+//431 809 2621 7829 209785669799 150794606190194112168401 417467109300720063964829
+
+	mpz_set_str(temp,"209785669799",10);
+	 mpz_mod(tmp, b,temp);
+gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
+
+
+	mpz_set_str(temp,"150794606190194112168401",10);
+	 mpz_mod(tmp, b,temp);
+gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
+
+	mpz_set_str(temp,"417467109300720063964829",10);
+	 mpz_mod(tmp, b,temp);
+gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
+	mpz_set_str(temp,"2",10);	
+	int i = 0;
+	while(i < 200)
+	{
+		mpz_mod(tmp, b,temp);
+//		if (!mpz_cmp_ui(tmp,9))
+			gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
+                //if (!mpz_cmp_ui(tmp, 697))
+                //        gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
+		i++;
+		mpz_add_ui(temp,temp,1);
+	}
+
+	mpz_mod_ui(tmp,b, 431);
+	gmp_printf(" N mod 431 = %Zd \n", tmp);	
+
+       mpz_mod_ui(tmp,b, 809);
+        gmp_printf(" N mod 809 = %Zd \n", tmp);
+       mpz_mod_ui(tmp,b, 2621);
+        gmp_printf(" N mod 2621 = %Zd \n", tmp);
+       mpz_mod_ui(tmp,b, 7829);
+        gmp_printf(" N mod 7829 = %Zd \n", tmp);
 
 
 	if (isperfectsquare(b) == 1) 
@@ -79,7 +131,14 @@ void basic(mpz_t a, mpz_t b)
 	if(gcd(a,b))
 		fprintf(stdout, "e and N are relatively prime\n");
 
-	mpz_clear(tmp);
+	mpz_sub(tmp,b,a);
+	mpz_sqrt(temp,b);
+	gmp_printf(" sqrt(N) = %Zd \n", temp);
+//	mpz_div(temp,tmp,temp);
+//	gmp_printf(" (N-e)/sqrt(N) = %Zd \n", temp);
+
+	mpz_clear(tmp);mpz_clear(temp);
+
 }
 
 mpz_t farr[100000];
@@ -119,7 +178,7 @@ int cfrac(mpz_t a,mpz_t b)
  }
 
 
-void find_k_d(mpz_t a,mpz_t b,int j)
+int find_k_d(mpz_t a,mpz_t b,int j)
 {
   int k,i,m=1;
   mpz_t x,y,z,tmp;
@@ -147,16 +206,37 @@ void find_k_d(mpz_t a,mpz_t b,int j)
     mpz_set(darr[m],y);
     m++;
   }
+
+  /*Dujella Formula*/
+  mpz_sqrt(y,b);
+  mpz_mul(y,y,b);
+  mpz_mul_ui(x,a,4244);
+  mpz_div_ui(x,x,1000);
+  mpz_div(y,y,x);
+  m=0;
+  for(i=1; i<j;i+=2)
+  {
+    mpz_mul(z,darr[i],darr[i+1]);
+    if(mpz_cmp(z,y)>0)
+    {
+	m = i;
+	break;
+    }
+  }
+//  if(0!=m)
+  	//printf("should be %d / %d\n", m,j); 
+  
   mpz_clear (y);
   mpz_clear (z);
   mpz_clear (tmp);
   mpz_clear (x);
+  return m;
 }
 
 
 int wiener(mpz_t a, mpz_t b)
 {
-	int j,i,iteration;
+	int bound,j,i,iteration,iter,den;
 	mpz_t f,tmp,tmpb,r1,r2,x;
 	mpz_t tab[10];
 	mpz_t arr[256];
@@ -173,24 +253,40 @@ int wiener(mpz_t a, mpz_t b)
 	mpz_set(tmp,a);
 	mpz_set(tmpb,b);
 
+        den=4096;
+        for(iter =den-1 ;iter < den ; iter+=32)
+        { 
 	//f = N + 1 - 2sqrt(N)
 	mpz_sqrt(k,tmpb);
-//	mpz_mul_ui(l,k,2);
-	mpz_mul_ui(l,k,212132034);
-	mpz_div_ui(l,l,100000000);
+        //mpz_ui_pow_ui(l,2,iter);
+	//gmp_printf("%Zd  iter = %d\n",l, iter);
+	mpz_mul_ui(l,k,2);
+	//mpz_mul_ui(l,k,iter);
+	//mpz_div_ui(k,k,den);
+	//mpz_add(l,l,k);
 	mpz_add_ui(k,tmpb,1);
 	mpz_sub(f,k,l);
+        gmp_printf("%Zd \n", f);
+
+        mpz_mul_ui(k,a,8);
+	gmp_printf("%Zd \n",k);
+
+	mpz_div_ui(k,f,8);
+	gmp_printf("%Zd \n",k);
+	gmp_printf("%Zd \n",a);
+	
 
 	j=cfrac(tmp,f);
-   	find_k_d(tmp,tmpb,j);
+   	bound=find_k_d(tmp,tmpb,j);
    	mpz_set(tmp,a);				
 	mpz_set(tmpb,b);
 
 
-	for(i=0; i < j+1; i++)
+	for(i=0; i <= j; i++)
 	{
 		if(mpz_cmp_ui(karr[i],0) != 0)		
 		{
+			//gmp_printf("X / Y  = %Zd / %Zd \n", karr[i], darr[i]);
 			mpz_mul(k,darr[i],a);
 			mpz_sub_ui(l,k,1);
 			mpz_fdiv_q(t,l,karr[i]);
@@ -216,7 +312,7 @@ int wiener(mpz_t a, mpz_t b)
 
 			if(mpz_cmp(tmpb,k) ==0)
 			{
-				fprintf(stdout, "Wiener's attack worked !\n");
+				fprintf(stdout, "Wiener's attack worked for i = %d!\n", i);
 				gmp_printf("P   is %Zd \n",r1);
 				gmp_printf("Q   is %Zd\n",r2);
 
@@ -240,6 +336,8 @@ int wiener(mpz_t a, mpz_t b)
 			}
 		}
 	}
+
+	} /*EO Iteration sur iter */
 /*
 	//fprintf(stdout, "Wiener's attack failed !\n");
 	mpz_sqrt(tmpb,b);

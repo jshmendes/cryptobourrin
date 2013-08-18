@@ -61,11 +61,11 @@ int main(int argc, char *argv[])
 	mpf_t tri,ter;
 	mpf_t f_x;
 	mpf_init2(f_x, 4096);	mpf_init2(ter, 4096);	mpf_init2(tri,4096);
-
-	for(num = 100; num < 254 ; num++)
+	int Base =50; 
+	for(num = 1; num < Base  ; num++)
 	{
 		fprintf(stderr,"num = %3d\n",num);
-		for(den = 270; den <= 280 ; den++)
+		for(den = num; den <= Base ; den++)
 		{
 			mpf_set_z(f_x,b);
 			num_x = (double) 2 + ((double)num/(double)den);
@@ -74,30 +74,32 @@ int main(int argc, char *argv[])
 	//		fprintf(stdout," num_x = %f den_x = %f\n", num_x, den_x);
 	//		fprintf(stdout,"den_x = %f\n", den_x);
 			mpf_set_d(tri,den_x);
-	//		gmp_printf("Tri = %.*Ff\n",10,tri);
-	//		gmp_printf("f_x = %.*Ff\n",10,f_x);
+		//	gmp_printf("Tri = %.*Ff\n",100,tri);
+		//	gmp_printf("f_x = %.*Ff\n",10,f_x);
 			mpf_sqrt(f_x,f_x);	
-	//		gmp_printf("f_x = %.*Ff\n",10,f_x);
+		//	gmp_printf("f_x = %.*Ff\n",10,f_x);
 	//		gmp_printf("k   = %Zd\n",k);
 			mpf_mul(tri,tri,f_x);
-	//		gmp_printf("Tri = %.*Ff\n",10, tri);
+		//	gmp_printf("Tri = %.*Ff\n",10, tri);
 			mpf_sub_ui(tri,tri,1);
 	//		gmp_printf("Tri = %.*Ff\n",10,tri);
 			mpf_set_z(ter,b);
 			mpf_sub(ter,ter,tri);
-	//		gmp_printf("Ter = %.*Ff\n",10,ter);
-//			mpf_mul_ui(ter,ter,factor);
+		//	gmp_printf("Ter = %.*Ff\n",10,ter);
+			mpf_mul_ui(ter,ter,factor);
 			mpz_set_f(f,ter);
-	//		mpz_add_ui(f,f,1);
-	//		gmp_printf("f   = %Zd\n",f);
-	//		gmp_printf("a   = %Zd\n",a);
-			mpz_set(a,a_orig);
+//			mpz_add_ui(f,f,1);
+		//	gmp_printf("f   = %Zd\n",f);
+		//	gmp_printf("a   = %Zd\n",a);
+			mpz_mul_ui(a,a_orig,factor);
+		//	gmp_printf("a   = %Zd\n",a);
 			j=cfrac(a,f);
 			find_k_d(a,f,j);
-			mpz_set(a,a_orig);
+			mpz_mul_ui(a,a_orig,factor);
+
 			for(i=0; i < j+1; i++)
 			{
-	//			gmp_printf("i=%d\tkarr[i] = %Zd,\n\tdarr[i] = %Zd\n",i,karr[i],darr[i]);
+		//		gmp_printf("i=%d\tkarr[i] = %Zd,\n\tdarr[i] = %Zd\n",i,karr[i],darr[i]);
 				if(mpz_cmp_ui(karr[i],0) != 0)		
 				{
 					mpz_mul(k,darr[i],a);
@@ -144,7 +146,7 @@ int main(int argc, char *argv[])
 
 	fprintf(stderr, "attack failed\n");
     
-    mpz_sqrt(tmpb,b);
+        mpz_sqrt(tmpb,b);
 	mpz_sqrt(tmp,tmpb);
 
 	mpz_fdiv_q_ui(r1,tmp,3);

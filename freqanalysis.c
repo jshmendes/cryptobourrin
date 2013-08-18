@@ -52,7 +52,7 @@ int main(int argc, char * argv[])
     
 	fprintf(stderr, "Top\n");
 
-	for(i=0; (i<1000000 && (rc = getc(fp))!=0x00); i++)
+	for(i=0; (i<212 && (rc = getc(fp))!=0x00); i++)
 	{
 		fprintf(stderr, " j = %d \n", j);
 		buffer[i] = rc ;	

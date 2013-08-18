@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
+
+
+
 	mpz_t x,N, pow,tmp, min, minRef ;
 	mpz_init_set_str(x,"2", 16);	
 	mpz_init_set_str(tmp,"341510400", 10);	
@@ -26,6 +29,12 @@ int main(int argc, char *argv[])
 	mpz_t power[1000];
 	mpz_t minima[1000];
 	unsigned int count = 0;
+
+	for(i = 1 ; i < 1000 ; i++)
+		for(j = 459/i ; j < 1000 ; j++)
+			if( i*j%1000 == 459)
+				printf("%d x %d \n",i,j);
+
 
 	for(i=0 ; i < 1000 ; i++)
 	{

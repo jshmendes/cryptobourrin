@@ -10,7 +10,7 @@ LIBS=-lm -lgmp
 _DEPS = tools.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = wiener.o 
+_OBJ = wiener.o  
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
@@ -18,6 +18,8 @@ $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 wiener: $(OBJ)
+	gcc -o $@ $^ $(CFLAGS) $(LIBS)
+weger: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean

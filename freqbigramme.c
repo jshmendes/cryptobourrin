@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
 	fprintf(stderr, "init passed\n");
 
-	FILE *fp = fopen("04-blue-block.txt","r");
+	FILE *fp = fopen("hexatext.txt","r");
 	
 	if(fp==NULL)
 	{
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}	
 	
-	for(i=0; (i<672&&(rc = getc(fp))!=0x00); i++)
+	for(i=0; (i<200&&(rc = getc(fp))!=0x00); i++)
 	{
 		buf[i] = rc ;	
 	}
