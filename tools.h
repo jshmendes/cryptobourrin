@@ -101,11 +101,19 @@ gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
 gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
 	mpz_set_str(temp,"2",10);	
 	int i = 0;
-	while(i < 200)
+	int j = 0;
+	fprintf(stdout, "000 ");
+	for(i = 0 ; i < 20 ; i++)
+		fprintf(stdout, "%3d,",i);
+	i = 0 ;
+	while(i < 400)
 	{
+		if(i%20 == 0)
+			fprintf(stdout,"\n%03d ",j++);	
 		mpz_mod(tmp, b,temp);
 //		if (!mpz_cmp_ui(tmp,9))
-			gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
+			gmp_printf("%3Zd,",tmp);
+		
                 //if (!mpz_cmp_ui(tmp, 697))
                 //        gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
 		i++;
