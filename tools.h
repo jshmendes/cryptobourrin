@@ -216,15 +216,16 @@ int find_k_d(mpz_t a,mpz_t b,int j)
   }
 
   /*Dujella Formula*/
+
   mpz_sqrt(y,b);
   mpz_mul(y,y,b);
+  mpz_mul_ui(y,y,1000);
   mpz_mul_ui(x,a,4244);
-  mpz_div_ui(x,x,1000);
   mpz_div(y,y,x);
   m=0;
   for(i=1; i<j;i+=2)
   {
-    mpz_mul(z,darr[i],darr[i+1]);
+    mpz_mul(z,karr[i],karr[i+1]);
     if(mpz_cmp(z,y)>0)
     {
 	m = i;
@@ -261,27 +262,11 @@ int wiener(mpz_t a, mpz_t b)
 	mpz_set(tmp,a);
 	mpz_set(tmpb,b);
 
-        den=4096;
-        for(iter =den-1 ;iter < den ; iter+=32)
-        { 
 	//f = N + 1 - 2sqrt(N)
 	mpz_sqrt(k,tmpb);
-        //mpz_ui_pow_ui(l,2,iter);
-	//gmp_printf("%Zd  iter = %d\n",l, iter);
 	mpz_mul_ui(l,k,2);
-	//mpz_mul_ui(l,k,iter);
-	//mpz_div_ui(k,k,den);
-	//mpz_add(l,l,k);
 	mpz_add_ui(k,tmpb,1);
 	mpz_sub(f,k,l);
-        gmp_printf("%Zd \n", f);
-
-        mpz_mul_ui(k,a,8);
-	gmp_printf("%Zd \n",k);
-
-	mpz_div_ui(k,f,8);
-	gmp_printf("%Zd \n",k);
-	gmp_printf("%Zd \n",a);
 	
 
 	j=cfrac(tmp,f);
@@ -289,8 +274,27 @@ int wiener(mpz_t a, mpz_t b)
    	mpz_set(tmp,a);				
 	mpz_set(tmpb,b);
 
+        //Dujella Formula
+	//k = \frac{N\sqrt{N}}{4.244*E}
+	mpz_sqrt(k,tmpb);
+	mpz_mul(k,k,tmpb);
+	mpz_mul_ui(k,k,1000);
+	mpz_div(k,k,tmp);
+	mpz_div_ui(k,k,4244);
 
-	for(i=0; i <= j; i++)
+	//gmp_printf("k = %Zd\n", k);
+	//if darr
+	for(i=1; i < j; i+=2)
+	{
+		mpz_mul(l,karr[i],karr[i+1]);
+		if(mpz_cmp(l,k) > 0)		
+		{
+			break;
+		}
+	}
+	
+	
+	//fprintf(stdout,"Bound = %d, i = %d \n",bound,i);
 	{
 		if(mpz_cmp_ui(karr[i],0) != 0)		
 		{
@@ -306,46 +310,47 @@ int wiener(mpz_t a, mpz_t b)
 			mpz_mul_ui(l,tmpb, 4);
 			mpz_sub(delta, k,l);
 		
-			if(mpz_cmp_ui(delta, 0) < 0)
-				continue;	
-			mpz_sqrt(k,delta);
+			if(mpz_cmp_ui(delta, 0) > 0)
+			{		
+				mpz_sqrt(k,delta);
 
-			mpz_sub(l,B,k);
-			mpz_fdiv_q_ui(r1,l,2); 
+				mpz_sub(l,B,k);
+				mpz_fdiv_q_ui(r1,l,2); 
 
-			mpz_add(l,k,B);
-			mpz_fdiv_q_ui(r2,l,2); 
+				mpz_add(l,k,B);
+				mpz_fdiv_q_ui(r2,l,2); 
 
-			mpz_mul(k, r1,r2);
+				mpz_mul(k, r1,r2);
 
-			if(mpz_cmp(tmpb,k) ==0)
-			{
-				fprintf(stdout, "Wiener's attack worked for i = %d!\n", i);
-				gmp_printf("P   is %Zd \n",r1);
-				gmp_printf("Q   is %Zd\n",r2);
+				if(mpz_cmp(tmpb,k) ==0)
+				{
+					fprintf(stdout, "Wiener's attack worked for i = %d\n", i);
+					gmp_printf("P   is %Zd \n",r1);
+					gmp_printf("Q   is %Zd\n",r2);
 
-				mpz_sub_ui(r1,r1,1);
-				mpz_sub_ui(r2,r2,1);		
+					mpz_sub_ui(r1,r1,1);
+					mpz_sub_ui(r2,r2,1);		
 
-				mpz_mul(r1,r1,r2);
-				gmp_printf("Phi is %Zd\n",r1);
-				mpz_invert(r2,a,r1);
-				gmp_printf("d   is %Zd\n",r2);
+					mpz_mul(r1,r1,r2);
+					gmp_printf("Phi is %Zd\n",r1);
+					mpz_invert(r2,a,r1);
+					gmp_printf("d   is %Zd\n",r2);
 
-				mpz_clear (tmp);
-				mpz_clear (tmpb);
-				mpz_clear (r1);
-				mpz_clear (r2);
-				mpz_clear (k);
-				mpz_clear (l);
-				mpz_clear (f);
+					mpz_clear (tmp);
+					mpz_clear (tmpb);
+					mpz_clear (r1);
+					mpz_clear (r2);
+					mpz_clear (k);
+					mpz_clear (l);
+					mpz_clear (f);
 
-				exit(0);
+					exit(0);
+				}
 			}
 		}
 	}
 
-	} /*EO Iteration sur iter */
+//	} /*EO Iteration sur iter */
 /*
 	//fprintf(stdout, "Wiener's attack failed !\n");
 	mpz_sqrt(tmpb,b);
