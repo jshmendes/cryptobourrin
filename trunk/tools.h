@@ -148,6 +148,31 @@ gmp_printf(" N mod %2Zd = %Zd \n", temp, tmp);
 	mpz_clear(tmp);mpz_clear(temp);
 
 }
+void basic2(mpz_t a, mpz_t b)
+{
+	mpz_t tmp,temp;
+	mpz_init(tmp);mpz_init(temp);
+
+	mpz_set(tmp,b);
+	mpz_sub_ui(tmp,b,1);
+
+
+	mpz_div_ui(tmp, tmp, 6);
+	mpz_div_ui(tmp, tmp, 113);
+
+	mpz_set_str(temp,"23277301651951300157187803", 10);
+	mpz_div(tmp, tmp, temp);
+
+	if (isprime(tmp) == 2) 
+		fprintf(stdout, "Res(N-1) is prime\n");
+	else
+		fprintf(stdout, "Res(N-1) is not prime\n");
+
+
+
+	mpz_clear(tmp);mpz_clear(temp);
+
+}
 
 mpz_t farr[100000];
 mpz_t karr[10000],darr[10000];

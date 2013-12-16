@@ -52,9 +52,9 @@ int main(int argc, char * argv[])
     
 	fprintf(stderr, "Top\n");
 
-	for(i=0; (i<212 && (rc = getc(fp))!=0x00); i++)
+	for(i=0; (i<674 && (rc = getc(fp))!=0x00); i++)
 	{
-		fprintf(stderr, " j = %d \n", j);
+		//fprintf(stderr, " j = %d \n", j);
 		buffer[i] = rc ;	
 		freqAnalysis[rc]++;
 		j++;
@@ -106,6 +106,24 @@ int main(int argc, char * argv[])
 		fprintf(stdout, "freqAnalysis[%02x/%c] = %d\n", i, (i>0x1f)?(char)i:0x20, freqAnalysis[i]);
 	}
 */
+
+	for(i=0; (i<674 && (rc = getc(fp))!=0x00); i++)
+	{
+		if(buffer[i] == 0x0a)		
+			fprintf(stdout, "$ ");
+		else
+			fprintf(stdout, "%c ", buffer[i]);		
+		if( (i+1)%9 == 0)
+			fprintf(stdout, "\n");
+	}
+	fprintf(stdout, "\n");
+
+
+	for(i=0; (i<674 && (rc = getc(fp))!=0x00); i++)
+	{
+		if(buffer[i] == '#')
+			fprintf(stdout, "\n%d\n", i);
+	}
 	if(0)
 	{
 		//bigramme

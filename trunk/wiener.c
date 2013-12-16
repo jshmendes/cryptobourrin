@@ -294,7 +294,7 @@ int main(int argc, char *argv[])
 
 
 
-	//basic(a,b);
+	basic2(a,b);
 
 	int j,i=0;
 /*	for(j = 1 ; j < 256 ; j++)
