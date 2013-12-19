@@ -1,3 +1,10 @@
+# 
+# Python script to be used in sage
+# sage : run coppersmith.py
+# Script is adapted from 
+# http://algo.epfl.ch/_media/en/projects/bachelor_semester/rapportetiennehelfer.pdf
+#
+
 def coppersmith(f, N, epsilon=0.1, debug=False):
  if epsilon>1/7.0 or epsilon<=0:
         print("invalidepsilon")
